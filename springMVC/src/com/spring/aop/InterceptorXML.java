@@ -12,24 +12,24 @@ import org.aspectj.lang.ProceedingJoinPoint;
 public class InterceptorXML {
 //    
 	public void doAfter() {
-		System.out.println("Spring  After Method---");		
+		System.out.println("XML Spring  After Method---");		
 	}
 	public void doAfterReturn() {
-		System.out.println("Spring  doAfterReturn Method---");		
+		System.out.println("XML Spring  doAfterReturn Method---");		
 	}
 	
 	public void doThrowing() {
-		System.out.println("Spring  ThrowException Method---");		
+		System.out.println("XML Spring  ThrowException Method---");		
 	}
 	public void doBefore() {
-		System.out.println("Spring  Before Method---");		
+		System.out.println("XML Spring  Before Method---");		
 	}
 	//环绕通知方法最特殊，因为是非常类似于Struts2拦截器和动态代理模式的方法，
 //	也就是调用方法的之前之后都会执行
 	public Object doAround(ProceedingJoinPoint pj) throws Throwable {
-		System.out.println("Spring 环绕进入---");
+		System.out.println("XML Spring 环绕进入---");
 		Object result=pj.proceed();// 非常类似于2拦截器的invoke();
-		System.out.println("Spring 环绕退出---:"+result);
+		System.out.println("XML Spring 环绕退出---:"+result);
 		return result;
 	}
 //	Spring 环绕进入---

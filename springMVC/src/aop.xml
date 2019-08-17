@@ -28,7 +28,7 @@
 <!-- 定义切面 -->
 <!-- <aop:config>
   切面类注入
-  <aop:aspect id="asp" ref="aop1">
+  <aop:aspect id="asp" ref="aop">
      配置切面拦截的类对象,pointcut定义切面点
      execution 定义的切面类，多个对象   java.lang.Integer,
      <aop:pointcut id="myCut" 
