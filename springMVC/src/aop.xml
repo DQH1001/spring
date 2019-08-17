@@ -17,7 +17,7 @@
 	              http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 
-<!-- @配置aop，先定义开发切面点 -->
+<!-- @配置aop，先定义开发切面点 使用注解需要这句话 -->
 <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 <bean id="person" class="com.spring.aop.PersonBean">
 </bean>

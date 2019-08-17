@@ -17,8 +17,8 @@
 	              http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 
-<!-- @配置aop，先定义开发切面点 -->
-<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+<!-- @配置aop，先定义开发切面点 使用配置文件的方式则不需要这句话 -->
+<!-- <aop:aspectj-autoproxy></aop:aspectj-autoproxy> -->
 <bean id="person" class="com.spring.aop.PersonBean">
 </bean>
 <!-- @配置，但是@配置的类对象还是需要new bean -->
@@ -29,10 +29,22 @@
 <aop:config>
  <!--  切面类注入 -->
   <aop:aspect id="asp" ref="aop">
-     <!-- 配置切面拦截的类对象,pointcut定义切面点
+     <!-- 
+     	后面.*指的是PersonBean的所有属性，方法
+     	前面 * ：指的是方法是否是有返回值，如果*那就是全部方法，包含有无返回值，
+     	如果针对是没有返回值是void com.spring.aop.PersonBean.*
+     	如果针对的是全部有返回值!void com.spring.aop.PersonBean.*
+     	(..)该文件下的所有方法的所有类型的返回值，
+     	如果是针对第一个是int类型后面参数无所谓: (java.lang.Integer,..)
+      -->
+      
+      <!-- 配置切面拦截的类对象,pointcut定义切面点
      execution 定义的切面类，多个对象   java.lang.Integer, -->
+     
      <aop:pointcut id="myCut" 
         expression="execution(!void com.spring.aop.PersonBean.*(..))" />
+        
+        
   <!--    切面拦截的方法都是围绕该切面点操作的
            定义各个围绕拦截的方法操作 -->
      <aop:after method="doAfter" pointcut-ref="myCut"/>
