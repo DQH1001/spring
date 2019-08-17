@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-3.1.1.js"></script>
+<script>
+$(document).ready(function(){
+$.ajax({
+	//JSON.stringify(
+	//提交给met3不用加JSON.stringify,因为met3的参数没加@ResponseBody,
+	//俩端都加，可以传递比较复杂的json数据，只加一端，只有其形未具其势
+	url:"web3/met5.action",
+	method:"post",
+	dataType:"json",//返回的数据格式，但是传递参数的格式
+	//
+	data:JSON.stringify({username:"username",
+		password:"#pass"}),
+    contentType:"application/json;charset=UTF-8",
+	success:function(data){
+		alert(data);
+	},
+    error:function(){
+    	alert("eerr");
+    }
+});	
+})
+</script>
+</head>
+<body>
+<!-- web提交：beans.xml采用单独注入：action="web.action" method="post" -->
+<!-- web1提交：action="web1.action?met" method="post" -->
+<!-- web2提交：递进：action="web2/met.action" method="post" -->
+<!-- <form action="web3/met3.action" method="post"> -->
+<input name=username>
+<input name=password>
+<input type="submit" value="提交">
+<!-- </form> -->
+</body>
+</html>

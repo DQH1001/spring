@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	              http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	              http://www.springframework.org/schema/context 
+	              http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+<!-- @注入，操作比较让程序员接纳的，但是@永恒的缺陷，跟随java编译，
+@注入被接纳的原因是如同批量注入，所以spring3.0之后要求@批量注入是一个包的范畴内，
+也就是批量注入 new bean spring有些依赖于包的位置和path 
+批量注入两个包的内容,  批量@注入类包指的是controller前台页面跳转类对象，其次数据加工类对象，
+但是涉及到mybatis的操作类对象无须注入，-->
+<context:component-scan base-package="com.spring.model,com.spring.controller"></context:component-scan>
+
+<!-- mvc  new bean和注入系统的类对象
+1.定义注入视图   注入3个setter方法-->
+ <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+   <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />
+   <property name="prefix" value="/"></property>
+   <property name="suffix" value=".html"></property>
+ </bean>
+<!-- 2.定义url映射(不需要是可以省略的)    set
+<bean id="mapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+  <property name="mappings">
+    <props>
+      <prop key="/web.action">webController</prop>
+    </props>
+  </property>
+</bean>
+<bean id="webController" class="com.spring.controller.WebController">
+
+</bean>
+<bean id="web1Controller" class="com.spring.controller.Web1Controller"></bean>
+-->
+
+
+<!-- 3.springmvc的实用的插件  JSON   Jackson  ajax json-->
+<!-- 配置 json jackson jar
+ 如果利用jackson jar为异步json服务，那么必须把jackson jar注入到 springframework中
+ @ResponseBody  去访问以下配置信息 
+ spring core jar 接纳 jackson jar操作的一个配置信息
+ new 一个Jackson jar的 bean对象-->
+ <bean id="mappingJackson2HttpMessageConverter"
+  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+  <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+               <!-- jackson ajax jar注入给了springmvc @ 注解管理核心类对象 AnnotationMethodHandlerAdapter-->
+                <ref bean="mappingJackson2HttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+    <bean
+        class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean
+                    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;charset=UTF-8</value>
+                            <value>text/json;charset=UTF-8</value>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean
+                    class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

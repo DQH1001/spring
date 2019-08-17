@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+<bean id="users" class="com.spring.model.UserImpl2">
+<!-- <constructor-arg (index,name指定要赋值的参数) ref="com1"></constructor-arg> -->
+  <constructor-arg ref="com1"></constructor-arg>
+    <constructor-arg value="23"></constructor-arg>
+</bean>
+<bean id="com1" class="com.spring.model.CompsImpl1"></bean>
+<bean id="coms" class="com.spring.model.CompsImpl"></bean>
+
+
+
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+<!-- new bean，java类在配置文件中的声明 ,反射实例读取的xml
+相当于在xml中 new users对象-->
+<bean id="users" class="com.spring.model.UserImpl">
+  <property name="coms" ref="com1"></property>
+</bean>
+<bean id="com1" class="com.spring.model.CompsImpl1"></bean>
+<bean id="coms" class="com.spring.model.CompsImpl"></bean>
+
+<!-- 自动装配,类中对象名与配置文件中bean相同的自动装配 ,不需要<property name="coms" ref="com1"></property>指定 -->
+<bean id="users1" class="com.spring.model.UserImpl" autowire="byName"></bean>
+
+<!-- 普通工厂模式，先new工厂类对象，然后new对象.调用普通自定义方法  所以两个new <bean> -->
+<bean id="factory" class="com.spring.factory.SpringFactory" ></bean>
+<bean id="fact" factory-bean="factory" factory-method="GetUserImpl1">
+<!-- setter注入 -->
+<property name="coms" ref="com1"></property>
+<!-- 注入改方法的参数 -->
+<constructor-arg name="number" value="1"></constructor-arg>
+</bean>
+
+<!-- ioc静态工厂new bean模式:该标签，如同执行了：SpringFactory.GetIUserObject(); -->
+<bean id="factory1" class="com.spring.factory.SpringFactory" factory-method="GetIUserObject">
+<property name="coms" ref="com1"></property>
+</bean>
+
+</beans>
