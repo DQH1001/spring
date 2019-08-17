@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	              http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	              http://www.springframework.org/schema/context 
+	              http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	              http://www.springframework.org/schema/aop 
+	              http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	              http://www.springframework.org/schema/tx 
+	              http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+
+<!-- @配置aop，先定义开发切面点 -->
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+<bean id="person" class="com.spring.aop.PersonBean">
+</bean>
+<!-- @配置，但是@配置的类对象还是需要new bean -->
+<bean id="aop" class="com.spring.aop.InterceptorXML"></bean>
+
+<!-- 类中用了注解因此不需要写了 -->
+<!-- 定义切面 -->
+<aop:config>
+ <!--  切面类注入 -->
+  <aop:aspect id="asp" ref="aop">
+     <!-- 配置切面拦截的类对象,pointcut定义切面点
+     execution 定义的切面类，多个对象   java.lang.Integer, -->
+     <aop:pointcut id="myCut" 
+        expression="execution(!void com.spring.aop.PersonBean.*(..))" />
+  <!--    切面拦截的方法都是围绕该切面点操作的
+           定义各个围绕拦截的方法操作 -->
+     <aop:after method="doAfter" pointcut-ref="myCut"/>
+     <aop:after-returning method="doAfterReturn" pointcut-ref="myCut"/>
+     <aop:after-throwing method="doThrowing" pointcut-ref="myCut"/>
+     <aop:around method="doAround" pointcut-ref="myCut"/>
+     <aop:before method="doBefore" pointcut-ref="myCut"/>
+  </aop:aspect>
+</aop:config>
+
+
+</beans>
